@@ -1,0 +1,61 @@
+
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #247ca3;
+
+ }
+
+.sinterklaas {
+    width: 123;
+}
+
+.logo {
+    text-decoration: none;
+}
+
+.header-bg, .main-btn {
+    background-color: #161920;
+}
+
+.header-btn, .main-bg {
+    background-color: #247ca3;
+}
+
+.login-btn {
+    background-color: #5d7d0d;
+}
+
+/* .img {
+    width: 180px;
+} */
+
+label {
+    float: left;
+    display: block;
+    width: 150px;
+}
+input {
+    display: block;
+}
+
+.register {
+    background-color: #5d7d0d;
+    color: white;
+}
+ 
+.spacer{
+    align-items:flex-start
+}
+
+footer {
+    background-color: #247ca3;
+}
