@@ -39,6 +39,7 @@
             if ($result && password_verify($password, $result['password'])) {
                     $_SESSION["userId"] = $result["id"];
                     $_SESSION["username"] = $result["username"];
+                    $_SESSION["pfp"] = $result["profile_picture"];
                     $_SESSION['login'] = true;
                     header("Location: home.php");
             }
