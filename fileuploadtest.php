@@ -8,7 +8,7 @@
             //this should have sufficient reat/write/execute permissions
             //if not already exists, please create it in the root of the
             //project folder
-            $targetDir = "uploads/";
+            $targetDir = "img/profile_pictures/";
             $targetFile = $targetDir . basename($_FILES["image"]["name"]);
             $upload0k = 1;
             $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));

@@ -2,6 +2,53 @@
     include("dbconnect.php");
     global $db;
     session_start();
+
+    if(isset($_POST["submit"])) {
+        if (isset($_FILES["image"])) {
+            $targetDir = "img/profile_pictures/";
+            $targetFile = $targetDir . basename($_FILES["image"]["name"]);
+            $upload0k = 1;
+            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+            $check = getImageSize($_FILES["image"]["tmp_name"]);
+            if ($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $upload0k = 1;
+            } else {
+                echo "File is not an image.";
+                $upload0k = 0;
+            }
+
+            if (file_exists($targetFile)) {
+                echo "File already exists.";
+                $upload0k = 0;
+            }
+
+            if ($_FILES["image"]["size"] > 500000) {
+                echo "Size is larger than 500KB.";
+                $upload0k = 0;
+            }
+
+            if (
+                $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif"
+            ) {
+                echo "Sorry, only JPG, JPEG, PNG and GIF files are allowed.";
+                $upload0k = 0;
+            }
+
+            if ($upload0k == 0) {
+                echo "Sorry, your file was not uploaded.";
+            } else {
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+                    echo "The file " . htmlspecialchars( basename( $_FILES["image"]["name"])) .
+                        " has been uploaded.";
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                }
+            }
+        }
+    }
 ?>
 
 <!doctype html>
@@ -44,7 +91,10 @@
         <div class="row">
             <div class="col-12 d-flex align-items-end">
                 <img src="img/profile_pictures/<?= $_SESSION['pfp'] ?>" class="mt-5 w-25"  alt="Profiel_foto">
-                <button type="button" class="btn btn-dark">Profiel Foto Wijzigen</button>
+                <form action="" method="post" enctype="multipart/form-data">
+                    <input type="file" name="image" class="btn btn-dark">
+                    <input type="submit" name="submit" class="btn btn-dark" value="Upload">
+                </form>
             </div>
             <div class="col-12">
                 <h2>Welkom terug, <?= $_SESSION['username'] ?>!</h2>
