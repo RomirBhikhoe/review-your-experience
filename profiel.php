@@ -12,19 +12,23 @@
 
             $check = getImageSize($_FILES["image"]["tmp_name"]);
             if ($check !== false) {
-                echo "File is an image - " . $check["mime"] . ".";
+//                echo "File is an image - " . $check["mime"] . ".";
                 $upload0k = 1;
             } else {
-                echo "File is not an image.";
+//                echo "File is not an image.";
                 $upload0k = 0;
             }
 
             if (file_exists($targetFile)) {
-                echo "File already exists.";
+                echo "<div class='container-fluid'>
+                            <div class='row text-center header-bg text-light'>
+                                <h2>File already exists</h2>
+                            </div>
+                        </div>";
                 $upload0k = 0;
             }
 
-            if ($_FILES["image"]["size"] > 500000) {
+            if ($_FILES["image"]["size"] > 1000000) {
                 echo "Size is larger than 500KB.";
                 $upload0k = 0;
             }
@@ -37,14 +41,30 @@
                 $upload0k = 0;
             }
 
+            $profilePicture = htmlspecialchars(basename($_FILES["image"]["name"]));
+
             if ($upload0k == 0) {
                 echo "Sorry, your file was not uploaded.";
             } else {
                 if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                    echo "The file " . htmlspecialchars( basename( $_FILES["image"]["name"])) .
-                        " has been uploaded.";
+                    $query = $db->prepare("UPDATE users SET profile_picture = :profilePicture WHERE id = :userId");
+                    $query->bindParam(':profilePicture', $profilePicture, PDO::PARAM_STR);
+                    $query->bindParam(':userId', $_SESSION['userId'], PDO::PARAM_INT);
+
+                    $query->execute();
+                    echo "<div class='container-fluid'>
+                            <div class='row text-center header-bg text-light'>
+                                <h2>The File $profilePicture has been uploaded.</h2>
+                            </div>
+                        </div>";
+
+                    $_SESSION["pfp"] = $profilePicture;
                 } else {
-                    echo "Sorry, there was an error uploading your file.";
+                    echo "<div class='container-fluid'>
+                            <div class='row text-center header-bg text-light'>
+                                <h2>Sorry, there was an error uploading your file.</h2>
+                            </div>
+                        </div>";
                 }
             }
         }
