@@ -1,5 +1,6 @@
 <?php
     include("dbconnect.php");
+    session_start();
     const USERNAME_REQUIRED = 'Vul een gebruikersnaam in';
     const  USERNAME_INUSE = 'Gebruikersnaam is al in gebruik';
     const PASSWORD_REQUIRED = 'Vul een wachtwoord in';

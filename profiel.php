@@ -4,10 +4,10 @@
     session_start();
 
     if (!isset($_SESSION['uploadedFiles'])) {
-        $_SESSION['profilePictures'] = array();
+        $_SESSION['uploadedFiles'] = array();
     }
 
-    if(isset($_POST["submit"])) {
+    if(isset($_POST["upload"])) {
         if (isset($_FILES["image"])) {
             $targetDir = "img/profile_pictures/";
             $targetFile = $targetDir . basename($_FILES["image"]["name"]);
@@ -45,25 +45,25 @@
                 $upload0k = 0;
             }
 
-            $profilePicture = htmlspecialchars(basename($_FILES["image"]["name"]));
+            $fileName = htmlspecialchars(basename($_FILES["image"]["name"]));
 
             if ($upload0k == 0) {
                 echo "Sorry, your file was not uploaded.";
             } else {
                 if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                    $query = $db->prepare("UPDATE users SET profile_picture = :profilePicture WHERE id = :userId");
-                    $query->bindParam(':profilePicture', $profilePicture, PDO::PARAM_STR);
-                    $query->bindParam(':userId', $_SESSION['userId'], PDO::PARAM_INT);
+                    $uploadProfilepicture = $db->prepare("UPDATE users SET profile_picture = :profilePicture WHERE id = :userId");
+                    $uploadProfilepicture->bindParam(':profilePicture', $profilePicture, PDO::PARAM_STR);
+                    $uploadProfilepicture->bindParam(':userId', $_SESSION['userId'], PDO::PARAM_INT);
 
-                    $query->execute();
+                    $uploadProfilepicture->execute();
                     echo "<div class='container-fluid'>
                             <div class='row text-center header-bg text-light'>
-                                <h2>The File $profilePicture has been uploaded.</h2>
+                                <h2>The File $fileName has been uploaded.</h2>
                             </div>
                         </div>";
 
-                    $_SESSION["pfp"] = $profilePicture;
-                    $_SESSION['profilePictures'][] = $profilePicture;
+                    $_SESSION["pfp"] = $fileName;
+                    $_SESSION['uploadedFiles'][] = $fileName;
                 } else {
                     echo "<div class='container-fluid'>
                             <div class='row text-center header-bg text-light'>
@@ -74,11 +74,22 @@
             }
         }
     }
+
+    if(isset($_POST["kies"])) {
+        $profilePicture = $_POST["profile_picture"];
+
+        $updateProfilePicture = $db->prepare("UPDATE users SET profile_picture = :profilePicture WHERE id = :userId");
+        $updateProfilePicture->bindParam(':profilePicture', $profilePicture, PDO::PARAM_STR);
+        $updateProfilePicture->bindParam(':userId', $_SESSION['userId'], PDO::PARAM_INT);
+        $updateProfilePicture->execute();
+
+        $_SESSION['pfp'] = $profilePicture;
+    }
 ?>
 
 <!doctype html>
 <html lang="en">
-
+<?="<pre>". var_dump($_SESSION['uploadedFiles']) ."</pre>" ?>
 <head>
     <title>Profiel beheer</title>
     <!-- Required meta tags -->
@@ -118,7 +129,17 @@
                 <img src="img/profile_pictures/<?= $_SESSION['pfp'] ?>" class="mt-5 w-25"  alt="Profiel_foto">
                 <form action="" method="post" enctype="multipart/form-data">
                     <input type="file" name="image" class="btn btn-dark">
-                    <input type="submit" name="submit" class="btn btn-dark" value="Upload">
+                    <input type="submit" name="upload" class="btn btn-dark" value="Upload">
+                    <select name="profile_picture" class="form-select" aria-label="Default select-example" id="profile_picture">
+                        <option selected>Of kies eerder geuploade profielfotos</option>
+                        <option value="aap.png">Aap</option>
+                        <?php
+                            foreach ($_SESSION['uploadedFiles'] as $file) {
+                                echo "<option value='" . $file . "'>" . $file . "</option>";
+                            }
+                        ?>
+                    </select>
+                    <input type="submit" name="kies" class="btn btn-dark" value="Kies">
                 </form>
             </div>
             <div class="col-12">
