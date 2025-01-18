@@ -3,6 +3,10 @@
     global $db;
     session_start();
 
+    if (!isset($_SESSION['uploadedFiles'])) {
+        $_SESSION['profilePictures'] = array();
+    }
+
     if(isset($_POST["submit"])) {
         if (isset($_FILES["image"])) {
             $targetDir = "img/profile_pictures/";
@@ -59,6 +63,7 @@
                         </div>";
 
                     $_SESSION["pfp"] = $profilePicture;
+                    $_SESSION['profilePictures'][] = $profilePicture;
                 } else {
                     echo "<div class='container-fluid'>
                             <div class='row text-center header-bg text-light'>

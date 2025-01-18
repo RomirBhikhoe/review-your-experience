@@ -180,23 +180,23 @@ try {
                         foreach($review as $reviewData) {
                             echo
                                 "
-                                             <div class='card mb-3' style='max-width: 400px;'>
-                                                <div class='row g-0'>
-                                                    <div class='col-md-2'>
-                                                        <img src='img/profile_pictures/" . $reviewData['profile_picture'] . "' class='img-fluid rounded-circle mx-auto d-block pt-3' style='max-width: 50px;' alt=''...''>
-                                                    </div>
-                                                    <div class='col-md-10'>
-                                                        <div class='card-body'>
-                                                            <h5 class='card-title'>" . $reviewData['titel'] . "</h5>
-                                                            <h6 class='card-text'>Cijfer: " . $reviewData['score'] . "</h6>
-                                                            <p class='card-text'>" . $reviewData['text'] . "</p>
-                                                            <b><p class='card-text'>Geschreven door: " . $reviewData['username'] . "</p></b>
-                                                            <p class='card-text'><small class='text-muted'>" . $reviewData['time'] . "</small></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                 <div class='card mb-3' style='max-width: 400px;'>
+                                    <div class='row g-0'>
+                                        <div class='col-md-2'>
+                                            <img src='img/profile_pictures/" . $reviewData['profile_picture'] . "' class='img-fluid rounded-circle mx-auto d-block pt-3' style='max-width: 50px;' alt=''...''>
+                                        </div>
+                                        <div class='col-md-10'>
+                                            <div class='card-body'>
+                                                <h5 class='card-title'>" . $reviewData['titel'] . "</h5>
+                                                <h6 class='card-text'>Cijfer: " . $reviewData['score'] . "</h6>
+                                                <p class='card-text'>" . $reviewData['text'] . "</p>
+                                                <b><p class='card-text'>Geschreven door: " . $reviewData['username'] . "</p></b>
+                                                <p class='card-text'><small class='text-muted'>" . $reviewData['time'] . "</small></p>
                                             </div>
-                                            ";
+                                        </div>
+                                    </div>
+                                </div>
+                                ";
                         }
                         ?>
                     </div>

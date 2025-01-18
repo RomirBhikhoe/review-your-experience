@@ -12,8 +12,6 @@
 
     global $db;
 
-
-
     try {
         if(isset($_POST["login"])){
             $username = filter_input(INPUT_POST,"username", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -41,6 +39,7 @@
                     $_SESSION["username"] = $result["username"];
                     $_SESSION["pfp"] = $result["profile_picture"];
                     $_SESSION['login'] = true;
+                    $_SESSION["profilePictures"] = [];
                     header("Location: home.php");
             }
             else {
