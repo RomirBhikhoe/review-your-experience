@@ -74,11 +74,6 @@
 <body>
 <header>
     <nav class="navbar header-bg">
-        <?php
-        if(isset($_SESSION['username'])) {
-            echo "<h2 class='header-bg text-light'>Welkom terug, " . $_SESSION["username"] . "</h2>";
-        }
-        ?>
         <div class="container-fluid">
             <div class="col-1 d-flex align-items-end">
             </div>

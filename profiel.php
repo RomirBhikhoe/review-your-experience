@@ -89,7 +89,9 @@
 
 <!doctype html>
 <html lang="en">
-<?="<pre>". var_dump($_SESSION['uploadedFiles']) ."</pre>" ?>
+<?php echo "<pre>";
+var_dump($_SESSION['uploadedFiles']);
+echo "</pre>"; ?>
 <head>
     <title>Profiel beheer</title>
     <!-- Required meta tags -->
